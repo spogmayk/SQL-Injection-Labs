@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OWASP Juice Shop – Burp Suite Authentication Analysis</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            max-width: 900px;
+            color: #222;
+        }
+        h1, h2, h3 {
+            color: #0b3c5d;
+        }
+        h1 {
+            border-bottom: 3px solid #0b3c5d;
+            padding-bottom: 10px;
+        }
+        h2 {
+            margin-top: 40px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 6px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.95em;
+        }
+        .meta {
+            background: #f9f9f9;
+            padding: 15px;
+            border-left: 4px solid #0b3c5d;
+            margin-bottom: 30px;
+        }
+        .caption {
+            font-style: italic;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+
+        /* Screenshot images */
+img {
+  display: block;
+  max-width: 800px;        /* uniform width */
+  width: 100%;
+  height: auto;            /* preserve aspect ratio */
+  margin: 12px auto;       /* center images */
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Captions */
+.caption {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 32px;
+}
+
+/* Headings spacing */
+h3 {
+  margin-top: 40px;
+}
+
+/* Multiple screenshots side-by-side (Screenshot 4) */
+h3 + img + img {
+  display: inline-block;
+  width: 48%;
+  margin: 12px 1%;
+}
+
+        footer {
+            margin-top: 60px;
+            font-size: 0.9em;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>OWASP Juice Shop – Burp Suite Authentication Analysis</h1>
+
+<div class="meta">
+    <strong>Project Type:</strong> Independent Security Lab<br>
+    <strong>Focus:</strong> HTTP Interception, Authentication Analysis, Request Replay<br>
+    <strong>Tools:</strong> Burp Suite Community Edition, Docker, Kali Linux
+</div>
+
+<h2>Overview</h2>
+<p>
+This project demonstrates the use of <strong>Burp Suite Community Edition</strong> to intercept,
+analyze, and replay authentication traffic for <strong>OWASP Juice Shop</strong>, a deliberately
+vulnerable web application. The objective was to showcase practical skills in configuring an
+intercepting proxy, capturing sensitive HTTP requests, and interacting directly with backend
+endpoints using professional penetration testing workflows.
+</p>
+
+<p>
+This lab was conducted independently and is intended for <strong>portfolio and project-based
+evaluation</strong>, reflecting methodologies commonly used in bug bounty hunting and web application
+security testing.
+</p>
+
+<h2>Lab Environment</h2>
+<ul>
+    <li><strong>Operating System:</strong> Kali Linux (Debian-based)</li>
+    <li><strong>Target Application:</strong> OWASP Juice Shop</li>
+    <li><strong>Deployment:</strong> Docker container</li>
+    <li><strong>Target URL:</strong> <code>http://localhost:3000</code></li>
+    <li><strong>Web Proxy:</strong> Burp Suite (Community Edition)</li>
+    <li><strong>Browser:</strong> Burp Suite built-in browser</li>
+</ul>
+
+<h2>Scope of Testing</h2>
+<ul>
+    <li>Configuration of Burp Suite as an intercepting proxy</li>
+    <li>Capture and inspection of HTTP requests</li>
+    <li>Interception of authentication traffic</li>
+    <li>Replay and analysis of requests using Burp Repeater</li>
+    <li>Observation of backend authentication responses</li>
+</ul>
+
+<h2>Methodology</h2>
+<ol>
+    <li><strong>Proxy Setup:</strong> Verified Burp proxy listener running on <code>127.0.0.1:8080</code>.</li>
+    <li><strong>Traffic Routing:</strong> Used Burp built-in browser to avoid localhost proxy bypass.</li>
+    <li><strong>Request Capture:</strong> Monitored HTTP history to confirm traffic interception.</li>
+    <li><strong>Authentication Interception:</strong> Captured login request at the correct execution stage.</li>
+    <li><strong>Request Replay:</strong> Sent the captured request to Burp Repeater for backend interaction.</li>
+</ol>
+
+<h2>Key Findings</h2>
+<ul>
+    <li>Authentication requests are transmitted via structured <strong>POST</strong> requests to a REST endpoint.</li>
+    <li>Credential data is observable and testable once intercepted.</li>
+    <li>Burp Repeater enables full backend interaction independent of the frontend UI.</li>
+    <li>Successful login access was achieved, confirming effective control over the authentication flow.</li>
+</ul>
+
+<h2>Screenshot Evidence</h2>
+
+<h3>Screenshot 1: Proxy Listener Configuration</h3>
+<img src="screenshot1.png" alt="Burp Suite proxy listener configuration" />
+
+<p class="caption">
+Burp Suite proxy listener running on localhost (<code>127.0.0.1:8080</code>), confirming correct interception setup.
+</p>
+
+<h3>Screenshot 2: Target Application in Burp Browser</h3>
+<img src="screenshot2.png" alt="OWASP Juice Shop in Burp Browser" />
+
+<p class="caption">
+OWASP Juice Shop loaded using Burp’s built-in browser to ensure all traffic is routed through the proxy.
+</p>
+
+<h3>Screenshot 3: HTTP History Capturing Application Traffic</h3>
+<img src="screenshot3.png" alt="HTTP history showing captured requests" />
+<p class="caption">
+Captured HTTP requests generated by the target application, validating successful proxy interception.
+</p>
+
+<h3>Screenshot 4: Intercepted Authentication Request</h3>
+<img src="screenshot4.1.png" alt="Intercepted login request in Burp Suite" />
+<img src="screenshot4.2.png" alt="Detailed view of intercepted login request" />
+<p class="caption">
+Login request intercepted in real time, exposing request method, endpoint, headers, and payload.
+</p>
+
+<h3>Screenshot 5: Authentication Request in Burp Repeater</h3>
+<img src="screenshot5.png" alt="Login request loaded in Burp Repeater" />
+<p class="caption">
+Captured login request loaded into Burp Repeater for controlled replay and testing.
+</p>
+
+<h3>Screenshot 6: Server Response in Burp Repeater</h3>
+<img src="screenshot6.png" alt="Server response in Burp Repeater" />
+<p class="caption">
+Backend server response observed after replaying the authentication request, confirming backend interaction.
+</p>
+
+<h2>Conclusion</h2>
+<p>
+This project demonstrates a solid understanding of web proxy tooling and authentication traffic analysis.
+The ability to intercept, replay, and analyze sensitive requests reflects skills directly applicable to
+real-world bug bounty hunting and penetration testing engagements.
+</p>
+
+<footer>
+    <p>
+        ⚠️ All testing was conducted in a controlled, legal lab environment using intentionally vulnerable software.
+    </p>
+</footer>
+
+</body>
+</html>
